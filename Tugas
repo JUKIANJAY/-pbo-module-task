@@ -1,0 +1,167 @@
+// Kelas dasar Hewan
+class Hewan
+{
+    public string Nama { get; set; }
+    public int Umur { get; set; }
+
+    public Hewan(string nama, int umur)
+    {
+        Nama = nama;
+        Umur = umur;
+    }
+
+    // Method dasar Suara()
+    public virtual string Suara()
+    {
+        return "Hewan ini bersuara";
+    }
+
+    // Method InfoHewan() untuk mengembalikan informasi hewan
+    public virtual string InfoHewan()
+    {
+        return $"Nama: {Nama}, Umur: {Umur}";
+    }
+}
+
+// Kelas Mamalia yang mewarisi Hewan
+class Mamalia : Hewan
+{
+    public int JumlahKaki { get; set; }
+
+    public Mamalia(string nama, int umur, int jumlahKaki) : base(nama, umur)
+    {
+        JumlahKaki = jumlahKaki;
+    }
+
+    public override string InfoHewan()
+    {
+        return base.InfoHewan() + $", Jumlah Kaki: {JumlahKaki}";
+    }
+}
+
+// Kelas Reptil yang mewarisi Hewan
+class Reptil : Hewan
+{
+    public double PanjangTubuh { get; set; }
+
+    public Reptil(string nama, int umur, double panjangTubuh) : base(nama, umur)
+    {
+        PanjangTubuh = panjangTubuh;
+    }
+
+    public override string InfoHewan()
+    {
+        return base.InfoHewan() + $", Panjang Tubuh: {PanjangTubuh} meter";
+    }
+}
+
+// Kelas Singa yang mewarisi Mamalia
+class Singa : Mamalia
+{
+    public Singa(string nama, int umur, int jumlahKaki) : base(nama, umur, jumlahKaki) { }
+
+    public override string Suara()
+    {
+        return "Singa mengaum";
+    }
+
+    public void Mengaum()
+    {
+        Console.WriteLine($"{Nama} sedang mengaum!");
+    }
+}
+
+// Kelas Gajah yang mewarisi Mamalia
+class Gajah : Mamalia
+{
+    public Gajah(string nama, int umur, int jumlahKaki) : base(nama, umur, jumlahKaki) { }
+
+    public override string Suara()
+    {
+        return "Gajah menderu";
+    }
+}
+
+// Kelas Ular yang mewarisi Reptil
+class Ular : Reptil
+{
+    public Ular(string nama, int umur, double panjangTubuh) : base(nama, umur, panjangTubuh) { }
+
+    public override string Suara()
+    {
+        return "Ular mendesis";
+    }
+
+    public void Merayap()
+    {
+        Console.WriteLine($"{Nama} sedang merayap!");
+    }
+}
+
+// Kelas Buaya yang mewarisi Reptil
+class Buaya : Reptil
+{
+    public Buaya(string nama, int umur, double panjangTubuh) : base(nama, umur, panjangTubuh) { }
+
+    public override string Suara()
+    {
+        return "Buaya menggeram";
+    }
+}
+
+// Kelas KebunBinatang yang memiliki koleksi hewan
+class KebunBinatang
+{
+    private List<Hewan> koleksiHewan = new List<Hewan>();
+
+    // Method TambahHewan untuk menambahkan hewan ke koleksi
+    public void TambahHewan(Hewan hewan)
+    {
+        koleksiHewan.Add(hewan);
+    }
+
+    // Method DaftarHewan untuk menampilkan informasi semua hewan
+    public void DaftarHewan()
+    {
+        foreach (var hewan in koleksiHewan)
+        {
+            Console.WriteLine(hewan.InfoHewan());
+            Console.WriteLine(hewan.Suara());
+        }
+    }
+}
+
+// Implementasi method Main
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Buat objek KebunBinatang
+        KebunBinatang kebunBinatang = new KebunBinatang();
+
+        // Buat objek hewan-hewan
+        Singa singa = new Singa("Lordes", 5, 4);
+        Gajah gajah = new Gajah("Mojas", 10, 4);
+        Ular ular = new Ular("Keita", 3, 2.5);
+        Buaya buaya = new Buaya("Jamal", 7, 4.0);
+
+        // Tambahkan hewan-hewan ke kebun binatang
+        kebunBinatang.TambahHewan(singa);
+        kebunBinatang.TambahHewan(gajah);
+        kebunBinatang.TambahHewan(ular);
+        kebunBinatang.TambahHewan(buaya);
+
+        // Panggil method DaftarHewan untuk menampilkan info semua hewan
+        kebunBinatang.DaftarHewan();
+
+        // Demonstrasi polymorphism dengan memanggil method Suara() dari objek hewan yang berbeda
+        Console.WriteLine(singa.Suara());
+        Console.WriteLine(gajah.Suara());
+        Console.WriteLine(ular.Suara());
+        Console.WriteLine(buaya.Suara());
+
+        // Panggil method khusus untuk Singa dan Ular
+        singa.Mengaum();
+        ular.Merayap();
+    }
+}
